@@ -1,1 +1,2 @@
 # GuessTheWord
+Info coming soon
