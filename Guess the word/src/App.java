@@ -74,10 +74,10 @@ public class App {
             }
 
 
-            UpdateGuess(CoveredRandomWord, Attempts);
+            UpdateGuess(CoveredRandomWord, Attempts); //print info about the number of remaining attempts, correctly guessed letters from word.
             
             
-            if(GameWin(CoveredRandomWord)==CoveredRandomWord.length){
+            if(GameWin(CoveredRandomWord)==CoveredRandomWord.length){ 
                 System.out.println("YOU WON!");
                 break;                
             }
