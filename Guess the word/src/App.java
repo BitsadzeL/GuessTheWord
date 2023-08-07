@@ -2,6 +2,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.Scanner;
 import java.util.ArrayList;
+import java.util.InputMismatchException;
 import java.util.Random;
 
 public class App {
@@ -43,13 +44,48 @@ public class App {
 
 
 
-        while(true){
+        while (true) {
             System.out.print("Your guess: ");
-            char user = userInput.next().charAt(0);
-            if(Character.isUpperCase(user)==true){
-                user=Character.toLowerCase(user);
-            }
+            char user = ' ';
+
+            try {
+                String inputLine = userInput.nextLine();
+                
+                // Check if the input is empty or a sequence of characters
+                if(inputLine.length()==0){
+                    throw new IllegalArgumentException();
+                }
+                else if (inputLine.length() > 1) {
+                    throw new ArrayIndexOutOfBoundsException();
+                }
+
+                user = inputLine.charAt(0);
+                
+                if (!Character.isLetter(user)) {
+                    throw new InputMismatchException();
+                }
+
+                if (Character.isUpperCase(user)) {
+                    user = Character.toLowerCase(user);
+                }
+            } 
+            catch (InputMismatchException e) {
+                System.out.println("Please, enter a valid letter");
+                UpdateGuess(CoveredRandomWord, Attempts);
+                continue;
+            } 
             
+            catch(ArrayIndexOutOfBoundsException e) {
+                System.out.println("Please, enter a single letter, not a sentence!");
+                UpdateGuess(CoveredRandomWord, Attempts);
+                continue;
+            } 
+            
+            catch(IllegalArgumentException e) {
+                System.out.println("Enter something! input can't not be empty!");
+                UpdateGuess(CoveredRandomWord, Attempts);
+                continue;
+            }
 
             boolean correctGuess = false;
         
@@ -74,11 +110,12 @@ public class App {
             }
 
 
-            UpdateGuess(CoveredRandomWord, Attempts); //print info about the number of remaining attempts, correctly guessed letters from word.
+            UpdateGuess(CoveredRandomWord, Attempts);
             
             
-            if(GameWin(CoveredRandomWord)==CoveredRandomWord.length){ 
+            if(GameWin(CoveredRandomWord)==CoveredRandomWord.length){
                 System.out.println("YOU WON!");
+                System.out.println("The word was:"+RandomWordInStr);
                 break;                
             }
 
